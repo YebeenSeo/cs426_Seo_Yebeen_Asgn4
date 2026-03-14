@@ -15,7 +15,7 @@ public class Player : NetworkBehaviour {
     [SerializeField] private int max_health = 100;
     [SerializeField] private float speed = 25.0f;
     [SerializeField] private float forward_bonus_speed = 2.0f;
-    [SerializeField] private float jump_strength = 700.0f;
+    [SerializeField] private float jump_strength = 250.0f;
     [SerializeField] private float camera_sensitivity_while_aiming = 0.5f;
     [SerializeField] private float camera_sensitivity_while_not_aiming = 1.0f;
     [SerializeField] private float field_of_view_while_aiming = 70.0f;

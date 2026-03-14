@@ -9,12 +9,12 @@ using UnityEngine;
 using UnityEngine.InputSystem;
 
 public class Bullet : NetworkBehaviour {
-    // BULLET ATTRIBUTES (Can modify in Unity)
     [SerializeField] private float lifetime = 1.0f;
+    [SerializeField] private int maxBounces = 2;
     
-    // OTHER ATTRIBUTES
     public ulong shooter_ID;
     private int damage = 25;
+    private int bounceCount = 0;
 
     public override void OnNetworkSpawn() {
         if (IsServer) {
@@ -26,13 +26,19 @@ public class Bullet : NetworkBehaviour {
         if (!IsServer) {
             return;
         }
+
         Monster monster = collision.gameObject.GetComponent<Monster>();
         if (monster != null) {
             monster.TakeDamage(damage);
             if (monster.GetHealth() <= 0) {
-                //Economy.Instance?.AddMoney(10);
             }
+            GetComponent<NetworkObject>().Despawn();
+            return;
         }
-        GetComponent<NetworkObject>().Despawn();
+
+        bounceCount++;
+        if (bounceCount > maxBounces) {
+            GetComponent<NetworkObject>().Despawn();
+        }
     }
 }
